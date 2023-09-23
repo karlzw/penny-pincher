@@ -1,42 +1,31 @@
 import { ThemeProvider } from "@emotion/react";
 import { LightMode, DarkMode } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  styled,
-  Typography,
-  CssBaseline,
-} from "@mui/material";
-import { red } from "@mui/material/colors";
-import { useThemeMode } from "./customhooks/useThemeMode";
+import { Box, Button, styled, Typography, CssBaseline } from "@mui/material";
+import { useTheme } from "./customhooks/useTheme";
 
-const CustomButton = styled(Button)`
-  background: ${red[400]};
-  color: white;
+const ToggleThemeBox = styled(Box)((props) => {
+  console.log(props);
 
-  &:hover {
-    /* color: ${red[500]}; */
-    background: ${red[600]};
-  }
-`;
+  return {
+    position: "absolute",
+    right: props.theme.spacing(1),
+    top: props.theme.spacing(1),
+  };
+});
 
 export default function App() {
-  const { theme, changeColorMode } = useThemeMode();
+  const { theme, changeColorMode } = useTheme();
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-
-      <Box>
-        <Typography>Hello Carlos</Typography>
-        <CustomButton>This is a button</CustomButton>
-
+      <ToggleThemeBox>
         {theme.palette.mode === "dark" ? (
           <LightMode onClick={changeColorMode} sx={{ cursor: "pointer" }} />
         ) : (
           <DarkMode onClick={changeColorMode} sx={{ cursor: "pointer" }} />
         )}
-      </Box>
+      </ToggleThemeBox>
     </ThemeProvider>
   );
 }
