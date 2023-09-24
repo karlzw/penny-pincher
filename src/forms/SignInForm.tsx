@@ -152,8 +152,9 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
                 justifyContent: "center",
               }}
             >
+
               <Button
-                disabled={isSubmitting}
+                disabled={isSubmitting || !(JSON.stringify(errors) === "{}")}
                 variant="contained"
                 endIcon={
                   isSubmitting ? (

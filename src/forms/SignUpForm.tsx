@@ -205,7 +205,7 @@ export const SignUpForm = ({ setIsSignInFormActive }: SignUpFormTypes) => {
               }}
             >
               <Button
-                disabled={isSubmitting}
+                disabled={isSubmitting || !(JSON.stringify(errors) === "{}")}
                 variant="contained"
                 endIcon={
                   isSubmitting ? (
