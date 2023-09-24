@@ -18,6 +18,10 @@ export function Theme() {
       //   light: "#f3e5f5",
       //   dark: "#ab47bc",
       // },
+      common: {
+        black: "#1f1f1f",
+        white: "#fff",
+      },
     },
   });
 
