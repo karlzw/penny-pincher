@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { useNavigate } from "react-router";
 import { auth } from "../config/Firebase";
 
@@ -9,9 +9,5 @@ export function HomePage() {
     navigate("/");
   };
 
-  return (
-    <Box>
-      <Button onClick={signOut}>Sign Out</Button>
-    </Box>
-  );
+  return <Box>Welcom Home</Box>;
 }

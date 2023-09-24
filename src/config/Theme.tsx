@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { RootState } from "../app/store"
 
 export function Theme() {
   const mode = useSelector((state: RootState) => state.themeMode.mode);

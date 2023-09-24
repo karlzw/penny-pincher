@@ -19,6 +19,9 @@ const DarkModeBox = styled(Box)(({ theme }) => ({
   })`,
 
   transitionDuration: "1s",
+  display: "flex",
+  justifyContent: "end",
+  padding: "0.5rem",
 }));
 
 export const LandingPage = () => {

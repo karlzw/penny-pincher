@@ -5,9 +5,9 @@ import { Theme } from "../config/Theme";
 import { setThemeMode } from "../config/appSlice";
 
 const ToggleThemeBox = styled(Box)(({ theme }) => ({
-  position: "absolute",
-  right: theme.spacing(1),
-  top: theme.spacing(1),
+  // position: "absolute",
+  // right: theme.spacing(1),
+  // top: theme.spacing(1),
 }));
 
 export default function ToggleTheme() {
