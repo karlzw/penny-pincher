@@ -1,4 +1,5 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import "./App.css";
 import { Router } from "./config/Router";
 import { Theme } from "./config/Theme";
 
