@@ -38,7 +38,7 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
 
   const signInWithGoogle = async () => {
     await signInWithPopup(auth, googleProvider);
-    if (auth?.currentUser) navigate("/home");
+    if (auth?.currentUser) navigate("/dashboard");
   };
 
   return (
@@ -77,7 +77,7 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
         onSubmit={(values, { setSubmitting }) => {
           signInWithEmailAndPassword(auth, values.email, values.password)
             .then((result) => {
-              if (result?.user) navigate("/home");
+              if (result?.user) navigate("/dashboard");
             })
             .catch((error) => {
               console.log(error);
@@ -152,7 +152,6 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
                 justifyContent: "center",
               }}
             >
-
               <Button
                 disabled={isSubmitting || !(JSON.stringify(errors) === "{}")}
                 variant="contained"

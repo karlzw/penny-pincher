@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { Navigate, Route, Routes } from "react-router";
 import ProtectedRoutes from "../components/ProtectedRoutes";
-import { HomePage } from "../pages/HomePage";
+import { Dashboard } from "../pages/Dashboard";
 import { LandingPage } from "../pages/LandingPage";
 
 export function Router() {
@@ -10,7 +10,7 @@ export function Router() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route element={<ProtectedRoutes />}>
-          <Route index path="/home" element={<HomePage />} />
+          <Route index path="/dashboard" element={<Dashboard />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

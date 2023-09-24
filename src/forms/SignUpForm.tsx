@@ -39,7 +39,7 @@ export const SignUpForm = ({ setIsSignInFormActive }: SignUpFormTypes) => {
 
   const signInWithGoogle = async () => {
     await signInWithPopup(auth, googleProvider);
-    if (auth?.currentUser) navigate("/home");
+    if (auth?.currentUser) navigate("/dashboard");
   };
 
   const signUpWithEmailAndPassword = ({
