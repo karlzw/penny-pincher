@@ -17,7 +17,8 @@ const DarkModeBox = styled(Box)(({ theme }) => ({
   backgroundImage: `url(${
     theme.palette.mode === "light" ? lightModeImage : darkModeImage
   })`,
-
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
   transitionDuration: "1s",
   display: "flex",
   justifyContent: "end",
