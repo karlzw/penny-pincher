@@ -91,7 +91,7 @@ function EditToolbar(props: EditToolbarProps) {
   return (
     <GridToolbarContainer>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
+        Add Transaction
       </Button>
     </GridToolbarContainer>
   );
@@ -147,30 +147,64 @@ export default function Transactions() {
   };
 
   const columns: GridColDef[] = [
-    { field: "name", headerName: "Name", width: 180, editable: true },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      width: 80,
-      align: "left",
-      headerAlign: "left",
-      editable: true,
-    },
-    {
-      field: "joinDate",
-      headerName: "Join date",
+      field: "Date",
+      headerName: "Date",
       type: "date",
-      width: 180,
+      width: 80,
+      flex: 1,
       editable: true,
     },
     {
-      field: "role",
-      headerName: "Department",
+      field: "title",
+      headerName: "Title",
+      width: 200,
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: "description",
+      headerName: "Description",
+      width: 200,
+      flex: 2,
+      editable: true,
+    },
+
+    {
+      field: "Amount",
+      headerName: "Amount",
+      type: "number",
+      headerAlign: "left",
+      width: 180,
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: "Category",
+      headerName: "Category",
+      editable: true,
+      width: 220,
+      flex: 1,
+      type: "singleSelect",
+      valueOptions: ["Housing", "Living", "Internet", "Side Hustle", "Round"],
+    },
+    {
+      field: "type",
+      headerName: "Type",
+      editable: true,
+      width: 220,
+      flex: 1,
+      type: "singleSelect",
+      valueOptions: ["Income", "Expenses"],
+    },
+    {
+      field: "Account",
+      headerName: "Account",
       width: 220,
       editable: true,
+      flex: 1,
       type: "singleSelect",
-      valueOptions: ["Market", "Finance", "Development"],
+      valueOptions: ["Hot Wallet", "Cold Wallet", "Lobola"],
     },
     {
       field: "actions",
@@ -232,6 +266,7 @@ export default function Transactions() {
           color: "text.primary",
         },
       }}
+      className="p-5"
     >
       <DataGrid
         rows={rows}
