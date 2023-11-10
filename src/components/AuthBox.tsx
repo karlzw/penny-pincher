@@ -8,7 +8,7 @@ export const AuthBox = styled(Box)(({ theme }) => ({
   alignItems: "center",
   gap: "0.4rem",
   background: `${theme.palette.primary.main}`,
-  paddingRight: "1rem",
+  paddingRight: "1.5rem",
   borderRadius: "0.25rem",
   color: `${theme.palette.mode === "dark" ? "#121212" : "white"}`,
   cursor: "pointer",
