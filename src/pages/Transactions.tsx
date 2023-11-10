@@ -17,57 +17,52 @@ import {
   GridRowModesModel,
   GridRowsProp,
   GridToolbarContainer,
+  GridValidRowModel,
 } from "@mui/x-data-grid";
 import {
   randomArrayItem,
+  randomCommodity,
   randomCreatedDate,
   randomId,
-  randomTraderName,
+  randomInt,
 } from "@mui/x-data-grid-generator";
-import * as React from "react";
+import { useState } from "react";
 
-const roles = ["Market", "Finance", "Development"];
-const randomRole = () => {
-  return randomArrayItem(roles);
+const categories = ["Housing", "Living", "Internet", "Side Hustle", "Round"];
+const account = ["Hot Wallet", "Cold Wallet", "Lobola"];
+const type = ["Income", "Expenses"];
+
+const randomCategory = () => {
+  return randomArrayItem(categories);
+};
+const randomAccount = () => {
+  return randomArrayItem(account);
 };
 
-const initialRows: GridRowsProp = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-];
+const randomType = () => {
+  return randomArrayItem(type);
+};
+
+const generateRandomRow = () => ({
+  id: randomId(),
+  title: randomCommodity(),
+  comment: randomCommodity(),
+  date: randomCreatedDate(),
+  type: randomType(),
+  category: randomCategory(),
+  amount: randomInt(10, 1000),
+  account: randomAccount(),
+});
+
+const generateInitialRows = (rowCount: number): GridRowsProp => {
+  const rows: GridValidRowModel[] = [];
+  for (let i = 0; i < rowCount; i++) {
+    rows.push(generateRandomRow());
+  }
+  return rows;
+};
+
+const initialRows: GridRowsProp = generateInitialRows(30);
 
 interface EditToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -81,10 +76,23 @@ function EditToolbar(props: EditToolbarProps) {
 
   const handleClick = () => {
     const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
+    setRows((oldRows) => [
+      {
+        id,
+        title: "",
+        comment: "",
+        date: new Date(),
+        amount: "",
+        type: "",
+        category: "",
+        account: "",
+        isNew: true,
+      },
+      ...oldRows,
+    ]);
     setRowModesModel((oldModel) => ({
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: "title" },
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
     }));
   };
 
@@ -98,10 +106,8 @@ function EditToolbar(props: EditToolbarProps) {
 }
 
 export default function Transactions() {
-  const [rows, setRows] = React.useState(initialRows);
-  const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
-    {}
-  );
+  const [rows, setRows] = useState(initialRows);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,
@@ -113,11 +119,17 @@ export default function Transactions() {
   };
 
   const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.Edit },
+    });
   };
 
   const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View },
+    });
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
@@ -137,7 +149,10 @@ export default function Transactions() {
   };
 
   const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow, isNew: false };
+    const updatedRow = {
+      ...newRow,
+      isNew: false,
+    };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
@@ -148,7 +163,7 @@ export default function Transactions() {
 
   const columns: GridColDef[] = [
     {
-      field: "Date",
+      field: "date",
       headerName: "Date",
       type: "date",
       width: 80,
@@ -163,24 +178,25 @@ export default function Transactions() {
       editable: true,
     },
     {
-      field: "description",
-      headerName: "Description",
+      field: "comment",
+      headerName: "Comment",
       width: 200,
       flex: 2,
       editable: true,
     },
 
     {
-      field: "Amount",
+      field: "amount",
       headerName: "Amount",
       type: "number",
       headerAlign: "left",
+      align: "left",
       width: 180,
       flex: 1,
       editable: true,
     },
     {
-      field: "Category",
+      field: "category",
       headerName: "Category",
       editable: true,
       width: 220,
@@ -198,7 +214,7 @@ export default function Transactions() {
       valueOptions: ["Income", "Expenses"],
     },
     {
-      field: "Account",
+      field: "account",
       headerName: "Account",
       width: 220,
       editable: true,
@@ -257,8 +273,6 @@ export default function Transactions() {
   return (
     <Box
       sx={{
-        height: 500,
-        width: "100%",
         "& .actions": {
           color: "text.secondary",
         },
@@ -266,7 +280,7 @@ export default function Transactions() {
           color: "text.primary",
         },
       }}
-      className="p-5"
+      className="p-5 w-full h-full"
     >
       <DataGrid
         rows={rows}
@@ -275,7 +289,13 @@ export default function Transactions() {
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
+        density="standard"
         processRowUpdate={processRowUpdate}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 10 } },
+          sorting: { sortModel: [{ field: "date", sort: "desc" }] },
+        }}
+        pageSizeOptions={[10]}
         slots={{
           toolbar: EditToolbar,
         }}
