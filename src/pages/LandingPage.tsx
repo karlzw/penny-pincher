@@ -29,17 +29,7 @@ export const LandingPage = () => {
   const [isSignInFormActive, setIsSignInFormActive] = useState(true);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-        gap: "1rem",
-      }}
-    >
+    <Box className="flex items-center flex-row justify-center w-full h-full gap-4">
       <DarkModeBox>
         <ToggleTheme />
       </DarkModeBox>

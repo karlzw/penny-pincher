@@ -57,17 +57,7 @@ export const SignUpForm = ({ setIsSignInFormActive }: SignUpFormTypes) => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-        gap: "1rem",
-      }}
-    >
+    <Box className="flex flex-col justify-center items-center w-full h-full gap-4">
       {error.length !== 0 && (
         <Alert variant="outlined" severity="error">
           {error.split(":").at(1)}
@@ -118,14 +108,8 @@ export const SignUpForm = ({ setIsSignInFormActive }: SignUpFormTypes) => {
           errors,
           isSubmitting,
         }) => (
-          <Form
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
-            }}
-          >
-            <FormControl variant="standard" sx={{ margin: 1, width: "40ch" }}>
+          <Form className="flex flex-col gap-4">
+            <FormControl variant="standard" className="m-1 w-[40ch]">
               <InputLabel
                 htmlFor="name-input"
                 error={touched.name && Boolean(errors.name)}
@@ -142,7 +126,7 @@ export const SignUpForm = ({ setIsSignInFormActive }: SignUpFormTypes) => {
               />
             </FormControl>
 
-            <FormControl variant="standard" sx={{ margin: 1, width: "40ch" }}>
+            <FormControl variant="standard" className="m-1 w-[40ch]">
               <InputLabel
                 htmlFor="email-input"
                 error={touched.email && Boolean(errors.email)}
@@ -159,7 +143,7 @@ export const SignUpForm = ({ setIsSignInFormActive }: SignUpFormTypes) => {
               />
             </FormControl>
 
-            <FormControl variant="standard" sx={{ margin: 1, width: "40ch" }}>
+            <FormControl variant="standard" className="m-1 w-[40ch]">
               <InputLabel
                 htmlFor="password-input"
                 error={touched.password && Boolean(errors.password)}
@@ -177,7 +161,7 @@ export const SignUpForm = ({ setIsSignInFormActive }: SignUpFormTypes) => {
               />
             </FormControl>
 
-            <FormControl variant="standard" sx={{ margin: 1, width: "40ch" }}>
+            <FormControl variant="standard" className="m-1 w-[40ch]">
               <InputLabel
                 htmlFor="confirmPassword-input"
                 error={
@@ -222,19 +206,11 @@ export const SignUpForm = ({ setIsSignInFormActive }: SignUpFormTypes) => {
           </Form>
         )}
       </Formik>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "0.25rem",
-        }}
-      >
+      <Box className="flex justify-between gap-1">
         <Typography>Already have an account?</Typography>
         <Link
           onClick={() => setIsSignInFormActive((prev) => !prev)}
-          sx={{
-            cursor: "pointer",
-          }}
+          className="cursor-pointer"
         >
           Sign In Now!
         </Link>

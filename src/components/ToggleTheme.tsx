@@ -19,7 +19,7 @@ export default function ToggleTheme() {
       onClick={() =>
         dispatch(setThemeMode(theme.palette.mode === "dark" ? "light" : "dark"))
       }
-      sx={{ cursor: "pointer" }}
+      className="cursor-pointer"
     >
       {theme.palette.mode === "dark" ? <LightMode /> : <DarkMode />}
     </ToggleThemeBox>

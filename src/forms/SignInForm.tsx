@@ -42,17 +42,7 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-        gap: "1rem",
-      }}
-    >
+    <Box className="flex flex-col justify-center items-center w-full h-full gap-4">
       {error.length !== 0 && (
         <Alert variant="outlined" severity="error">
           {error.split(":").at(1)}
@@ -94,14 +84,8 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
           errors,
           isSubmitting,
         }) => (
-          <Form
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
-            }}
-          >
-            <FormControl variant="standard" sx={{ margin: 1, width: "40ch" }}>
+          <Form className="flex flex-col gap-4">
+            <FormControl variant="standard" className="m-1 w-[40ch]">
               <InputLabel
                 htmlFor="email-input"
                 error={touched.email && Boolean(errors.email)}
@@ -118,7 +102,7 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
               />
             </FormControl>
 
-            <FormControl variant="standard" sx={{ margin: 1, width: "40ch" }}>
+            <FormControl variant="standard" className="m-1 w-[40ch]">
               <InputLabel
                 htmlFor="password-input"
                 error={touched.password && Boolean(errors.password)}
@@ -146,12 +130,7 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
                 }
               />
             </FormControl>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
+            <Box className="flex justify-center">
               <Button
                 disabled={isSubmitting || !(JSON.stringify(errors) === "{}")}
                 variant="contained"
@@ -170,13 +149,7 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
           </Form>
         )}
       </Formik>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "0.25rem",
-        }}
-      >
+      <Box className="flex justify-between gap-1">
         <Typography>Don't have an account?</Typography>
         <Link
           onClick={() => setIsSignInFormActive((prev) => !prev)}
@@ -185,15 +158,9 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
           Sign Up Free!
         </Link>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "0.25rem",
-        }}
-      >
+      <Box className="flex justify-between gap-1">
         <Typography>Forgot password?</Typography>
-        <Link href="#" sx={{ cursor: "pointer" }}>
+        <Link href="#" className="cursor-pointer">
           Reset Password
         </Link>
       </Box>
