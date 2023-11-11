@@ -6,7 +6,6 @@ import { Theme } from "./config/Theme";
 export default function App() {
   const { theme } = Theme();
 
-  console.log(theme);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

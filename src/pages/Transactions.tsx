@@ -26,7 +26,15 @@ import {
   randomId,
   randomInt,
 } from "@mui/x-data-grid-generator";
-import { useState } from "react";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
+import { useCallback, useEffect, useState } from "react";
+import { db } from "../config/Firebase";
 
 const categories = ["Housing", "Living", "Internet", "Side Hustle", "Round"];
 const account = ["Hot Wallet", "Cold Wallet", "Lobola"];
@@ -90,6 +98,7 @@ function EditToolbar(props: EditToolbarProps) {
       },
       ...oldRows,
     ]);
+
     setRowModesModel((oldModel) => ({
       [id]: { mode: GridRowModes.Edit, fieldToFocus: "title" },
       ...oldModel,
@@ -105,9 +114,49 @@ function EditToolbar(props: EditToolbarProps) {
   );
 }
 
+type Transaction = {
+  id: string;
+  title: string;
+  comment: string;
+  date: string; // Assuming randomCreatedDate returns a string representing a date
+  type: string; // Assuming randomType returns a string
+  category: string; // Assuming randomCategory returns a string
+  amount: number; // Assuming randomInt returns a number
+  account: string; // Assuming randomAccount returns a string
+};
+
 export default function Transactions() {
   const [rows, setRows] = useState(initialRows);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+
+  const getTransactions = useCallback(async (): Promise<void> => {
+    const transactionsCollectionRef = collection(db, "transactions");
+    try {
+      const data = await getDocs(transactionsCollectionRef);
+      const transactions: Transaction[] = data.docs.map((doc) => {
+        const docData = doc.data();
+        return {
+          id: doc.id,
+          title: docData.title,
+          comment: docData.comment,
+          date: docData.date.toDate(),
+          type: docData.type,
+          category: docData.category,
+          amount: docData.amount,
+          account: docData.account,
+        };
+      });
+
+      setRows(transactions);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("useEffect ran");
+    getTransactions();
+  }, []);
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,
@@ -132,8 +181,11 @@ export default function Transactions() {
     });
   };
 
-  const handleDeleteClick = (id: GridRowId) => () => {
+  const handleDeleteClick = (id: string) => async () => {
     setRows(rows.filter((row) => row.id !== id));
+    const transactionDoc = doc(db, "transactions", id);
+    console.log(transactionDoc);
+    await deleteDoc(transactionDoc);
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -153,6 +205,11 @@ export default function Transactions() {
       ...newRow,
       isNew: false,
     };
+
+    const transactionsCollectionRef = collection(db, "transactions");
+    addDoc(transactionsCollectionRef, updatedRow);
+
+    console.log(updatedRow);
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
