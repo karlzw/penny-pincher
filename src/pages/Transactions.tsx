@@ -12,7 +12,6 @@ import {
   GridEventListener,
   GridRowEditStopReasons,
   GridRowId,
-  GridRowModel,
   GridRowModes,
   GridRowModesModel,
   GridRowsProp,
@@ -27,11 +26,11 @@ import {
   randomInt,
 } from "@mui/x-data-grid-generator";
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
   getDocs,
+  setDoc,
 } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { db } from "../config/Firebase";
@@ -118,17 +117,19 @@ type Transaction = {
   id: string;
   title: string;
   comment: string;
-  date: string; // Assuming randomCreatedDate returns a string representing a date
-  type: string; // Assuming randomType returns a string
-  category: string; // Assuming randomCategory returns a string
-  amount: number; // Assuming randomInt returns a number
-  account: string; // Assuming randomAccount returns a string
+  date: string;
+  type: string;
+  category: string;
+  amount: number;
+  account: string;
+  isNew?: boolean;
 };
 
 export default function Transactions() {
-  const [rows, setRows] = useState(initialRows);
+  const [rows, setRows] = useState<Transaction[]>([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
+  const [isLoading, setIsLoading] = useState(true);
   const getTransactions = useCallback(async (): Promise<void> => {
     const transactionsCollectionRef = collection(db, "transactions");
     try {
@@ -148,6 +149,7 @@ export default function Transactions() {
       });
 
       setRows(transactions);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -181,9 +183,9 @@ export default function Transactions() {
     });
   };
 
-  const handleDeleteClick = (id: string) => async () => {
+  const handleDeleteClick = (id: GridRowId) => async () => {
     setRows(rows.filter((row) => row.id !== id));
-    const transactionDoc = doc(db, "transactions", id);
+    const transactionDoc = doc(db, "transactions", id.toString());
     console.log(transactionDoc);
     await deleteDoc(transactionDoc);
   };
@@ -200,14 +202,14 @@ export default function Transactions() {
     }
   };
 
-  const processRowUpdate = (newRow: GridRowModel) => {
+  const processRowUpdate = async (newRow: Transaction) => {
     const updatedRow = {
       ...newRow,
       isNew: false,
     };
 
-    const transactionsCollectionRef = collection(db, "transactions");
-    addDoc(transactionsCollectionRef, updatedRow);
+    const transactionDoc = doc(db, "transactions", newRow.id);
+    await setDoc(transactionDoc, updatedRow);
 
     console.log(updatedRow);
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
@@ -340,6 +342,7 @@ export default function Transactions() {
       className="p-5 w-full h-full"
     >
       <DataGrid
+        loading={isLoading}
         rows={rows}
         columns={columns}
         editMode="row"
