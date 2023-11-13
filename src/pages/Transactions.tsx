@@ -3,6 +3,7 @@ import CancelIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
+import { LinearProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {
@@ -33,6 +34,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
+import { CustomNoRowsOverlay } from "../components/NoRowsOverlay";
 import { db } from "../config/Firebase";
 
 const categories = ["Housing", "Living", "Internet", "Side Hustle", "Round"];
@@ -339,7 +341,7 @@ export default function Transactions() {
           color: "text.primary",
         },
       }}
-      className="p-5 w-full h-full"
+      className="p-5 w-[100vw] h-[calc(100vh-14vh)]"
     >
       <DataGrid
         loading={isLoading}
@@ -358,6 +360,8 @@ export default function Transactions() {
         pageSizeOptions={[10]}
         slots={{
           toolbar: EditToolbar,
+          loadingOverlay: LinearProgress,
+          noRowsOverlay: CustomNoRowsOverlay,
         }}
         slotProps={{
           toolbar: { setRows, setRowModesModel },
