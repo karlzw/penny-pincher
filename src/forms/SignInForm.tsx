@@ -17,6 +17,7 @@ import { Form, Formik } from "formik";
 import { MouseEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import GoogleIcon from "../assets/googleIcon.png";
 import { AuthBox } from "../components/AuthBox";
 import { auth, googleProvider } from "../config/Firebase";
 
@@ -52,7 +53,7 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
       <Typography variant="h3">Penny Pincher</Typography>
       <Typography>Sign in with: </Typography>
       <AuthBox onClick={signInWithGoogle}>
-        <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" />
+        <img src={GoogleIcon} />
         <Typography>Google</Typography>
       </AuthBox>
 
@@ -124,7 +125,7 @@ export const SignInForm = ({ setIsSignInFormActive }: SignInFormTypes) => {
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
                     >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
                 }
